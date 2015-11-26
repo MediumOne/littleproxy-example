@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+    <appender class="org.apache.log4j.ConsoleAppender" name="stdout">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param value="%-6r %d{ISO8601} %-5p [%t] %c{2} (%F:%L).%M() - %m%n" name="ConversionPattern"/>
+        </layout>
+    </appender>
+    <appender name="ASYNC" class="org.apache.log4j.AsyncAppender">
+    	<param name="BufferSize" value="500"/>
+        <appender-ref ref="stdout"/>
+    </appender>
+    <logger name="org.littleshoot.proxy">
+        <level value="debug"/>
+    </logger>
+    <root>
+        <level value="warn"/>
+        <appender-ref ref="ASYNC"/>
+    </root>
+</log4j:configuration>

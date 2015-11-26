@@ -1,0 +1,9 @@
+/littleproxy_keystore.jks
+/target/
+/littleproxy_cert
+/littleproxy-mitm.p12
+/littleproxy-mitm.pem
+/log.txt
+/.settings/
+/.project
+/.classpath
