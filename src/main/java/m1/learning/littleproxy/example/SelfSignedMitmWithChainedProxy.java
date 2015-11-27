@@ -28,8 +28,9 @@ public class SelfSignedMitmWithChainedProxy {
 		.withPort(PORT)
 		.withManInTheMiddle(new SelfSignedMitmManager())
 		.withChainProxyManager(cpm)
+		.withListenOnAllAddresses(true)
+		.withName("Mitm")
 		.start();
-
 	}
 
 	private static ChainedProxyManager getChainedProxyManager() {
@@ -52,7 +53,8 @@ public class SelfSignedMitmWithChainedProxy {
 
 	private static void setupUpstreamProxy() {
 		DefaultHttpProxyServer.bootstrap()
-		.withPort(UPSTREAM_PROXY_PORT)
+		.withAddress(new InetSocketAddress(UPSTREAM_PROXY_HOST, UPSTREAM_PROXY_PORT))
+		.withName("Upstream")
 		.start();		
 	}
 }
