@@ -1,6 +1,8 @@
-package m1.learning.littleproxy.example;
+package m1.learning.littleproxy.example.mitm;
 
 import java.net.InetSocketAddress;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Queue;
@@ -13,20 +15,21 @@ import javax.net.ssl.X509TrustManager;
 import org.littleshoot.proxy.ChainedProxy;
 import org.littleshoot.proxy.ChainedProxyAdapter;
 import org.littleshoot.proxy.ChainedProxyManager;
-import org.littleshoot.proxy.extras.SelfSignedMitmManager;
 import org.littleshoot.proxy.extras.SelfSignedSslEngineSource;
 import org.littleshoot.proxy.impl.DefaultHttpProxyServer;
+import org.littleshoot.proxy.mitm.CertificateSniffingMitmManager;
+import org.littleshoot.proxy.mitm.RootCertificateException;
 
 import io.netty.handler.codec.http.HttpRequest;
 
-public class SelfSignedMitmWithChainedHttpsProxy {
+public class CertSniffingMitmWithChainedHttpsProxy {
 	
 	private static final String UPSTREAM_PROXY_HOST = "127.0.0.1";
 	private static final int UPSTREAM_PROXY_PORT = 8101;
 	
 	private static final int PORT = 8100;
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws RootCertificateException {
 		
 		setupUpstreamHttpsProxy();		
 		
@@ -34,7 +37,7 @@ public class SelfSignedMitmWithChainedHttpsProxy {
 		
 		DefaultHttpProxyServer.bootstrap()
 		.withPort(PORT)
-		.withManInTheMiddle(new SelfSignedMitmManager())
+		.withManInTheMiddle(new CertificateSniffingMitmManager())
 		.withChainProxyManager(cpm)
 		.withListenOnAllAddresses(true)
 		.withName("Mitm")

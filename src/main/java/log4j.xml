@@ -11,7 +11,7 @@
         <appender-ref ref="stdout"/>
     </appender>
     <logger name="org.littleshoot.proxy">
-        <level value="debug"/>
+        <level value="info"/>
     </logger>
     <root>
         <level value="warn"/>

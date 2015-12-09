@@ -1,4 +1,4 @@
-package m1.learning.littleproxy.example;
+package m1.learning.littleproxy.example.mitm;
 
 import java.net.InetSocketAddress;
 import java.util.Queue;
