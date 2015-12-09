@@ -27,63 +27,63 @@ import io.netty.handler.codec.http.HttpVersion;
  *             HTTPS : https://httpbin.org/image/png
  */
 public class BlockingFilterProxy {
-	
-	private static final int PORT = 8100;
 
-	public static void main(String[] args) {
-		
-		HttpFiltersSource filtersSource = getFiltersSource();
-		
-		DefaultHttpProxyServer.bootstrap()
-		.withPort(PORT)
-		.withFiltersSource(filtersSource)
-		.withName("BlockingFilterProxy")
-		.start();
-	}
+    private static final int PORT = 8100;
 
-	private static HttpFiltersSource getFiltersSource() {
-		return new HttpFiltersSourceAdapter(){
-			
-			@Override
-			public HttpFilters filterRequest(HttpRequest originalRequest) {
-				
-				return new HttpFiltersAdapter(originalRequest){
-					
-					@Override
-					public HttpResponse clientToProxyRequest(HttpObject httpObject) {
-						
-						if(httpObject instanceof HttpRequest){
-							HttpRequest request = (HttpRequest) httpObject;
-							
-							System.out.println("Method URI : " + request.getMethod() + " " + request.getUri());
-							
-							if(request.getUri().endsWith("png") || request.getUri().endsWith("jpeg")){
-								//For URLs ending in 'png' and 'jpeg', return a 502 response.
-								return getBadGatewayResponse();
-							}
-						}
-						
-						return null;
-					}
+    public static void main(String[] args) {
 
-					private HttpResponse getBadGatewayResponse() {
-				        String body = "<!DOCTYPE HTML \"-//IETF//DTD HTML 2.0//EN\">\n"
-				                + "<html><head>\n"
-				                + "<title>"+"Bad Gateway"+"</title>\n"
-				                + "</head><body>\n"
-				                + "An error occurred"
-				                + "</body></html>\n";
-				        byte[] bytes = body.getBytes(Charset.forName("UTF-8"));
-				        ByteBuf content = Unpooled.copiedBuffer(bytes);
-				        HttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.BAD_GATEWAY, content);
-				        response.headers().set(HttpHeaders.Names.CONTENT_LENGTH, bytes.length);
-				        response.headers().set("Content-Type", "text/html; charset=UTF-8");
-				        response.headers().set("Date", ProxyUtils.formatDate(new Date()));
-				        response.headers().set(HttpHeaders.Names.CONNECTION, "close");
-				        return response;
-					}					
-				};
-			}			
-		};
-	}
+        HttpFiltersSource filtersSource = getFiltersSource();
+
+        DefaultHttpProxyServer.bootstrap()
+        .withPort(PORT)
+        .withFiltersSource(filtersSource)
+        .withName("BlockingFilterProxy")
+        .start();
+    }
+
+    private static HttpFiltersSource getFiltersSource() {
+        return new HttpFiltersSourceAdapter(){
+
+            @Override
+            public HttpFilters filterRequest(HttpRequest originalRequest) {
+
+                return new HttpFiltersAdapter(originalRequest){
+
+                    @Override
+                    public HttpResponse clientToProxyRequest(HttpObject httpObject) {
+
+                        if(httpObject instanceof HttpRequest){
+                            HttpRequest request = (HttpRequest) httpObject;
+
+                            System.out.println("Method URI : " + request.getMethod() + " " + request.getUri());
+
+                            if(request.getUri().endsWith("png") || request.getUri().endsWith("jpeg")){
+                                //For URLs ending in 'png' and 'jpeg', return a 502 response.
+                                return getBadGatewayResponse();
+                            }
+                        }
+
+                        return null;
+                    }
+
+                    private HttpResponse getBadGatewayResponse() {
+                        String body = "<!DOCTYPE HTML \"-//IETF//DTD HTML 2.0//EN\">\n"
+                                + "<html><head>\n"
+                                + "<title>"+"Bad Gateway"+"</title>\n"
+                                + "</head><body>\n"
+                                + "An error occurred"
+                                + "</body></html>\n";
+                        byte[] bytes = body.getBytes(Charset.forName("UTF-8"));
+                        ByteBuf content = Unpooled.copiedBuffer(bytes);
+                        HttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.BAD_GATEWAY, content);
+                        response.headers().set(HttpHeaders.Names.CONTENT_LENGTH, bytes.length);
+                        response.headers().set("Content-Type", "text/html; charset=UTF-8");
+                        response.headers().set("Date", ProxyUtils.formatDate(new Date()));
+                        response.headers().set(HttpHeaders.Names.CONNECTION, "close");
+                        return response;
+                    }					
+                };
+            }			
+        };
+    }
 }
