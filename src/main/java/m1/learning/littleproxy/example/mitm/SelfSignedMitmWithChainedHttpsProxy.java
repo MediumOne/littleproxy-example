@@ -36,7 +36,7 @@ public class SelfSignedMitmWithChainedHttpsProxy {
         .withPort(PORT)
         .withManInTheMiddle(new SelfSignedMitmManager())
         .withChainProxyManager(cpm)
-        .withListenOnAllAddresses(true)
+        .withAllowLocalOnly(false)
         .withName("Mitm")
         .start();
     }

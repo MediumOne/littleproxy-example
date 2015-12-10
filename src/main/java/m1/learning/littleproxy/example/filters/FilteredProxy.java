@@ -22,7 +22,7 @@ public class FilteredProxy {
         DefaultHttpProxyServer.bootstrap()
         .withPort(PORT)
         .withFiltersSource(filtersSource)
-        .withListenOnAllAddresses(true)
+        .withAllowLocalOnly(false)
         .withName("FilteringProxy")
         .start();
     }

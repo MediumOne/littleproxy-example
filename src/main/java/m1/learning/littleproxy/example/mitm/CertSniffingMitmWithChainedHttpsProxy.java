@@ -1,8 +1,6 @@
 package m1.learning.littleproxy.example.mitm;
 
 import java.net.InetSocketAddress;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Queue;
@@ -39,7 +37,7 @@ public class CertSniffingMitmWithChainedHttpsProxy {
         .withPort(PORT)
         .withManInTheMiddle(new CertificateSniffingMitmManager())
         .withChainProxyManager(cpm)
-        .withListenOnAllAddresses(true)
+        .withAllowLocalOnly(false)
         .withName("Mitm")
         .start();
     }

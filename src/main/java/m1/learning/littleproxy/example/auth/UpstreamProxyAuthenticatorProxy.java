@@ -33,7 +33,7 @@ public class UpstreamProxyAuthenticatorProxy {
 
         DefaultHttpProxyServer.bootstrap()
         .withPort(PORT)
-        .withListenOnAllAddresses(true)
+        .withAllowLocalOnly(false)
         .withName("AuthenticatorProxy")
         .withChainProxyManager(cpm)
         .start();

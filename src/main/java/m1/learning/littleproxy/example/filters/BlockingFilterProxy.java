@@ -36,6 +36,7 @@ public class BlockingFilterProxy {
 
         DefaultHttpProxyServer.bootstrap()
         .withPort(PORT)
+        .withAllowLocalOnly(false)
         .withFiltersSource(filtersSource)
         .withName("BlockingFilterProxy")
         .start();

@@ -8,7 +8,6 @@ import org.littleshoot.proxy.ChainedProxyAdapter;
 import org.littleshoot.proxy.ChainedProxyManager;
 import org.littleshoot.proxy.impl.DefaultHttpProxyServer;
 import org.littleshoot.proxy.mitm.CertificateSniffingMitmManager;
-import org.littleshoot.proxy.mitm.HostNameMitmManager;
 import org.littleshoot.proxy.mitm.RootCertificateException;
 
 import io.netty.handler.codec.http.HttpRequest;
@@ -30,7 +29,7 @@ public class CertSniffingMitmWithChainedProxy {
         .withPort(PORT)
         .withManInTheMiddle(new CertificateSniffingMitmManager())
         .withChainProxyManager(cpm)
-        .withListenOnAllAddresses(true)
+        .withAllowLocalOnly(false)
         .withName("Mitm")
         .start();
     }

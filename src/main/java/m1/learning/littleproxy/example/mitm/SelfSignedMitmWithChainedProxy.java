@@ -28,7 +28,7 @@ public class SelfSignedMitmWithChainedProxy {
         .withPort(PORT)
         .withManInTheMiddle(new SelfSignedMitmManager())
         .withChainProxyManager(cpm)
-        .withListenOnAllAddresses(true)
+        .withAllowLocalOnly(false)
         .withName("Mitm")
         .start();
     }
