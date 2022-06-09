@@ -14,6 +14,7 @@ import org.littleshoot.proxy.ChainedProxy;
 import org.littleshoot.proxy.ChainedProxyAdapter;
 import org.littleshoot.proxy.ChainedProxyManager;
 import org.littleshoot.proxy.extras.SelfSignedSslEngineSource;
+import org.littleshoot.proxy.impl.ClientDetails;
 import org.littleshoot.proxy.impl.DefaultHttpProxyServer;
 import org.littleshoot.proxy.mitm.CertificateSniffingMitmManager;
 import org.littleshoot.proxy.mitm.RootCertificateException;
@@ -45,10 +46,11 @@ public class CertSniffingMitmWithChainedHttpsProxy {
     private static ChainedProxyManager getChainedProxyManager() {
         return new ChainedProxyManager() {
 
-            public void lookupChainedProxies(HttpRequest httpRequest, Queue<ChainedProxy> chainedProxies) {
-
-                ChainedProxyAdapter chainedHttpsProxy = getChainedHttpsProxy();				
-                chainedProxies.add(chainedHttpsProxy);				
+            @Override
+            public void lookupChainedProxies(HttpRequest httpRequest, Queue<ChainedProxy> chainedProxies,
+                                             ClientDetails clientDetails) {
+                ChainedProxyAdapter chainedHttpsProxy = getChainedHttpsProxy();
+                chainedProxies.add(chainedHttpsProxy);
             }
 
             private ChainedProxyAdapter getChainedHttpsProxy() {

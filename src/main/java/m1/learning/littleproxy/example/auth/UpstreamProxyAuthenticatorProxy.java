@@ -7,6 +7,7 @@ import org.littleshoot.proxy.ChainedProxy;
 import org.littleshoot.proxy.ChainedProxyAdapter;
 import org.littleshoot.proxy.ChainedProxyManager;
 import org.littleshoot.proxy.ProxyAuthenticator;
+import org.littleshoot.proxy.impl.ClientDetails;
 import org.littleshoot.proxy.impl.DefaultHttpProxyServer;
 
 import io.netty.handler.codec.http.HttpObject;
@@ -58,6 +59,11 @@ public class UpstreamProxyAuthenticatorProxy {
 
                 return false;
             }
+
+            @Override
+            public String getRealm() {
+                return "Upstream Proxy";
+            }
         };
     }
 
@@ -65,8 +71,9 @@ public class UpstreamProxyAuthenticatorProxy {
 
         return new ChainedProxyManager() {
 
-            public void lookupChainedProxies(HttpRequest httpRequest, Queue<ChainedProxy> chainedProxies) {
-                chainedProxies.add(getChainedProxy());				
+            @Override
+            public void lookupChainedProxies(HttpRequest httpRequest, Queue<ChainedProxy> chainedProxies, ClientDetails clientDetails) {
+                chainedProxies.add(getChainedProxy());
             }
 
             private ChainedProxy getChainedProxy() {

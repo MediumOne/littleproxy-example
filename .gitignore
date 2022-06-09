@@ -7,3 +7,5 @@
 /.settings/
 /.project
 /.classpath
+/.idea/
+/littleproxy-example.iml

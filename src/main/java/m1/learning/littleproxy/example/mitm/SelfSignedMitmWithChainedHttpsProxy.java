@@ -15,6 +15,7 @@ import org.littleshoot.proxy.ChainedProxyAdapter;
 import org.littleshoot.proxy.ChainedProxyManager;
 import org.littleshoot.proxy.extras.SelfSignedMitmManager;
 import org.littleshoot.proxy.extras.SelfSignedSslEngineSource;
+import org.littleshoot.proxy.impl.ClientDetails;
 import org.littleshoot.proxy.impl.DefaultHttpProxyServer;
 
 import io.netty.handler.codec.http.HttpRequest;
@@ -44,7 +45,8 @@ public class SelfSignedMitmWithChainedHttpsProxy {
     private static ChainedProxyManager getChainedProxyManager() {
         return new ChainedProxyManager() {
 
-            public void lookupChainedProxies(HttpRequest httpRequest, Queue<ChainedProxy> chainedProxies) {
+            public void lookupChainedProxies(HttpRequest httpRequest, Queue<ChainedProxy> chainedProxies,
+                                             ClientDetails clientDetails) {
 
                 ChainedProxyAdapter chainedHttpsProxy = getChainedHttpsProxy();				
                 chainedProxies.add(chainedHttpsProxy);				

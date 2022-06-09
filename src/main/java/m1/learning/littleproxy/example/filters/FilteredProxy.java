@@ -89,6 +89,11 @@ public class FilteredProxy {
                         System.out.println("proxyToServerConnectionSucceeded");
                     }
 
+                    @Override
+                    public boolean proxyToServerAllowMitm() {
+                        return false;
+                    }
+
                     public void proxyToServerConnectionStarted() {
                         System.out.println("proxyToServerConnectionStarted");
                     }
